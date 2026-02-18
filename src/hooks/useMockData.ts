@@ -130,7 +130,7 @@ const computeFilteredData = (filters: FilterParams): Omit<MockDataState, 'loadin
 };
 
 export const useMockData = (filters: FilterParams): MockDataState => {
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [data, setData] = useState<Omit<MockDataState, 'loading'>>(() => computeFilteredData(filters));
   const previousFiltersRef = useRef<string>(`${filters.startMonth}-${filters.endMonth}`);
 
