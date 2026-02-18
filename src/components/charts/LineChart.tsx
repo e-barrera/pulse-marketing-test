@@ -12,7 +12,7 @@ import { BaseChart } from './BaseChart';
 import { CustomTooltip } from './CustomTooltip';
 import type { CartesianChartProps } from './types';
 import { formatMonth, formatYAxis } from '../../utils/formatter';
-import type { DEFAULT_COLORS } from '../../utils/constants';
+import { DEFAULT_COLORS } from '../../utils/constants';
 
 export const LineChart = ({
   data,

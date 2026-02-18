@@ -11,7 +11,7 @@ import {
 import { Box, Typography, Skeleton } from '@mui/material';
 import { CustomTooltip } from './CustomTooltip';
 import type { CartesianChartProps } from './types';
-import { formatMonth } from '../../utils/formatter';
+import { formatMonth, formatYAxis } from '../../utils/formatter';
 import { DEFAULT_COLORS } from '../../utils/constants';
 
 interface BarChartProps extends CartesianChartProps {

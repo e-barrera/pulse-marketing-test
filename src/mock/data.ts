@@ -3,8 +3,40 @@
 // Structured for easy import into a codebase (no backend required).
 // All dates in YYYY-MM format for monthly data; downtimes use ISO timestamps.
 
-const mockSaaSData = {
-  // Monthly revenue figures (in USD, MRR - Monthly Recurring Revenue)
+export interface RevenueItem {
+  month: string;
+  amount: number;
+}
+
+export interface SignupItem {
+  month: string;
+  count: number;
+}
+
+export interface TierDistributionItem {
+  month: string;
+  free: number;
+  pro: number;
+  enterprise: number;
+}
+
+export interface DowntimeItem {
+  id: number;
+  start: string;
+  end: string;
+  durationMinutes: number;
+  description: string;
+  affectedServices: string[];
+}
+
+export interface MockSaaSData {
+  revenue: RevenueItem[];
+  signups: SignupItem[];
+  tierDistribution: TierDistributionItem[];
+  downtimes: DowntimeItem[];
+}
+
+const mockSaaSData: MockSaaSData = {
   revenue: [
     { month: '2025-03', amount: 2200 },
     { month: '2025-04', amount: 3100 },
