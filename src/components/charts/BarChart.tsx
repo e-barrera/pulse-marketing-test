@@ -11,25 +11,8 @@ import {
 import { Box, Typography, Skeleton } from '@mui/material';
 import { CustomTooltip } from './CustomTooltip';
 import type { CartesianChartProps } from './types';
-import { CHART_COLORS } from './types';
-
-const DEFAULT_COLORS = [CHART_COLORS.success, CHART_COLORS.primary, CHART_COLORS.warning, CHART_COLORS.info];
-
-const formatMonth = (month: string): string => {
-  if (!month || !month.includes('-')) return month;
-  const parts = month.split('-');
-  const monthNum = parts[1];
-  const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-  const monthIndex = parseInt(monthNum, 10) - 1;
-  return `${monthNames[monthIndex]}`;
-};
-
-const formatYAxis = (value: number): string => {
-  if (value >= 1000) {
-    return `${(value / 1000).toFixed(0)}k`;
-  }
-  return `${value}`;
-};
+import { formatMonth } from '../../utils/formatter';
+import { DEFAULT_COLORS } from '../../utils/constants';
 
 interface BarChartProps extends CartesianChartProps {
   stacked?: boolean;

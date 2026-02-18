@@ -9,7 +9,7 @@ import {
 import type { PieLabelRenderProps } from 'recharts';
 import { Box, Typography, Skeleton, Paper } from '@mui/material';
 import type { PieChartProps } from './types';
-import { CHART_COLORS } from './types';
+import { CHART_COLORS } from '../../utils/constants';
 
 const DEFAULT_COLORS = [CHART_COLORS.free, CHART_COLORS.pro, CHART_COLORS.enterprise, CHART_COLORS.primary];
 

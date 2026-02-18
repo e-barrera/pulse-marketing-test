@@ -1,4 +1,5 @@
 import { Paper, Typography, Box } from '@mui/material';
+import { formatMonth, formatValue } from '../../utils/formatter';
 
 interface CustomTooltipProps {
   active?: boolean;
@@ -10,24 +11,6 @@ interface CustomTooltipProps {
   label?: string;
   isCurrency?: boolean;
 }
-
-const formatValue = (value: number, isCurrency?: boolean): string => {
-  if (isCurrency) {
-    if (value >= 1000) {
-      return `$${(value / 1000).toFixed(1)}k`;
-    }
-    return `$${value.toLocaleString()}`;
-  }
-  return value.toLocaleString();
-};
-
-const formatMonth = (month: string): string => {
-  if (!month || !month.includes('-')) return month;
-  const [year, monthNum] = month.split('-');
-  const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-  const monthIndex = parseInt(monthNum, 10) - 1;
-  return `${monthNames[monthIndex]} ${year}`;
-};
 
 export const CustomTooltip = ({ active, payload, label, isCurrency = false }: CustomTooltipProps) => {
   if (!active || !payload?.length) return null;

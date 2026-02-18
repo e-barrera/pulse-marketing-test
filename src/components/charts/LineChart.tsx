@@ -11,25 +11,8 @@ import { Box } from '@mui/material';
 import { BaseChart } from './BaseChart';
 import { CustomTooltip } from './CustomTooltip';
 import type { CartesianChartProps } from './types';
-import { CHART_COLORS } from './types';
-
-const DEFAULT_COLORS = [CHART_COLORS.primary, CHART_COLORS.success, CHART_COLORS.warning, CHART_COLORS.info];
-
-const formatMonth = (month: string): string => {
-  if (!month || !month.includes('-')) return month;
-  const parts = month.split('-');
-  const monthNum = parts[1];
-  const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-  const monthIndex = parseInt(monthNum, 10) - 1;
-  return `${monthNames[monthIndex]}`;
-};
-
-const formatYAxis = (value: number): string => {
-  if (value >= 1000) {
-    return `$${(value / 1000).toFixed(0)}k`;
-  }
-  return `$${value}`;
-};
+import { formatMonth, formatYAxis } from '../../utils/formatter';
+import type { DEFAULT_COLORS } from '../../utils/constants';
 
 export const LineChart = ({
   data,
