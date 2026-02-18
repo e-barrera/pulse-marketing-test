@@ -1,6 +1,4 @@
-export interface ChartData {
-  [key: string]: string | number;
-}
+export type ChartData = Record<string, string | number>;
 
 export interface DataKeyConfig {
   key: string;
@@ -28,3 +26,14 @@ export interface PieChartProps extends BaseChartProps {
 	innerRadius?: number;
 	outerRadius?: number;
 }
+
+export const CHART_COLORS = {
+  primary: '#1976d2',
+  secondary: '#dc004e',
+  success: '#82ca9d',
+  warning: '#ffc658',
+  info: '#8884d8',
+  free: '#8884d8',
+  pro: '#82ca9d',
+  enterprise: '#ffc658',
+};
