@@ -13,37 +13,13 @@ import {
   Paper,
 } from '@mui/material';
 import type { DowntimeData } from '../../hooks';
+import { formatDate, getServiceColor } from '../../utils';
 
 interface DowntimeTableProps {
   data: DowntimeData[];
   loading?: boolean;
   height?: number;
 }
-
-const formatDate = (isoString: string): string => {
-  const date = new Date(isoString);
-  return date.toLocaleString('en-US', {
-    month: 'short',
-    day: '2-digit',
-    year: 'numeric',
-    hour: '2-digit',
-    minute: '2-digit',
-    hour12: false,
-  });
-};
-
-const getServiceColor = (service: string): 'default' | 'primary' | 'secondary' | 'error' | 'info' | 'success' | 'warning' => {
-  const colors: Record<string, 'default' | 'primary' | 'secondary' | 'error' | 'info' | 'success' | 'warning'> = {
-    All: 'error',
-    API: 'primary',
-    Login: 'secondary',
-    Dashboard: 'info',
-    Billing: 'warning',
-    Notifications: 'success',
-    'Static Assets': 'default',
-  };
-  return colors[service] || 'default';
-};
 
 export const DowntimeTable = ({ data, loading = false, height = 350 }: DowntimeTableProps) => {
   const parentRef = useRef<HTMLDivElement>(null);
