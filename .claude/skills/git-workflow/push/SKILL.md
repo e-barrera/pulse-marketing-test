@@ -4,6 +4,9 @@ This skill defines the git workflow for pushing changes in this project.
 
 ## Workflow Steps
 
+### 0. Important: Work on Branches, Not Main
+**Never make changes directly on main.** Always create a new branch for your changes.
+
 ### 1. Create a Branch
 Before making changes, create a new branch from the current branch:
 
@@ -56,15 +59,31 @@ Add user authentication module
 ```
 
 ### 4. Push Branch
-Push the branch to the remote repository:
+Push the new branch to the remote repository with upstream tracking:
 
 ```bash
 git push -u origin <branch-name>
 ```
 
-For subsequent pushes:
+For subsequent pushes on the same branch:
 
 ```bash
+git push
+```
+
+### 5. Continuing Work on Existing Branches
+If you're continuing work on an existing branch:
+
+```bash
+# Switch to your branch
+git checkout <branch-name>
+
+# Pull latest changes from the branch
+git pull origin <branch-name>
+
+# Make your changes, then commit and push
+git add .
+git commit -m "Your changes"
 git push
 ```
 
