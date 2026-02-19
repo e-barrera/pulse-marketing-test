@@ -3,8 +3,15 @@ import { Grid, Paper, Typography, Box } from '@mui/material';
 import { FilterBar } from './FilterBar';
 import { DowntimeTable } from './DowntimeTable';
 import { LineChart, BarChart, PieChart, type ChartData } from '../../components/charts';
+import { LoadingBoundary } from '../../components/LoadingBoundary';
+import { ErrorBoundary } from '../../components/ErrorBoundary';
 import { useMockData, type FilterParams } from '../../hooks';
+import { useRevenue } from '../../hooks/useRevenue';
+import { useSignups } from '../../hooks/useSignups';
+import { useTierDistribution } from '../../hooks/useTierDistribution';
+import { useDowntimes } from '../../hooks/useDowntimes';
 import { CHART_COLORS } from '../../components/charts';
+import type { TierBreakdownData } from '../../types';
 
 const DEFAULT_FILTERS: FilterParams = {
   startMonth: '2025-03',
@@ -13,11 +20,29 @@ const DEFAULT_FILTERS: FilterParams = {
 
 export const Dashboard = () => {
   const [filters, setFilters] = useState<FilterParams>(DEFAULT_FILTERS);
-  const { revenue, signups, latestTierBreakdown, downtimes, loading } = useMockData(filters);
+  const { revenue, signups, downtimes, loading } = useMockData(filters);
+
+  const { isLoading: revenueLoading } = useRevenue(filters.startMonth, filters.endMonth);
+  const { isLoading: signupsLoading } = useSignups(filters.startMonth, filters.endMonth);
+  const { data: tierDistributionData, isLoading: tierLoading } = useTierDistribution(
+    filters.startMonth,
+    filters.endMonth
+  );
+  const { isLoading: downtimesLoading } = useDowntimes(filters.startMonth, filters.endMonth);
 
   const revenueChartData = revenue as unknown as ChartData[];
   const signupsChartData = signups as unknown as ChartData[];
-  const tierChartData = latestTierBreakdown as unknown as ChartData[];
+
+  const latestTier = tierDistributionData?.[tierDistributionData.length - 1];
+  const tierChartData: TierBreakdownData[] = latestTier
+    ? [
+        { tier: 'Free', value: latestTier.free },
+        { tier: 'Pro', value: latestTier.pro },
+        { tier: 'Enterprise', value: latestTier.enterprise },
+      ]
+    : [];
+
+  const queryChartData = tierChartData as unknown as ChartData[];
 
   return (
     <Box>
@@ -33,49 +58,65 @@ export const Dashboard = () => {
       <Grid container spacing={3}>
         <Grid size={{ xs: 12, md: 6 }}>
           <Paper sx={{ p: 2, height: '100%' }}>
-            <LineChart
-              title="Revenue Trend"
-              data={revenueChartData}
-              xAxisKey="month"
-              dataKeys={[
-                { key: 'amount', color: CHART_COLORS.primary, name: 'Revenue' },
-              ]}
-              loading={loading}
-            />
+            <ErrorBoundary>
+              <LoadingBoundary isLoading={revenueLoading}>
+                <LineChart
+                  title="Revenue Trend"
+                  data={revenueChartData}
+                  xAxisKey="month"
+                  dataKeys={[
+                    { key: 'amount', color: CHART_COLORS.primary, name: 'Revenue' },
+                  ]}
+                  loading={loading}
+                />
+              </LoadingBoundary>
+            </ErrorBoundary>
           </Paper>
         </Grid>
 
         <Grid size={{ xs: 12, md: 6 }}>
           <Paper sx={{ p: 2, height: '100%' }}>
-            <BarChart
-              title="User Growth"
-              data={signupsChartData}
-              xAxisKey="month"
-              dataKeys={[
-                { key: 'count', color: CHART_COLORS.success, name: 'New Signups' },
-              ]}
-              loading={loading}
-            />
+            <ErrorBoundary>
+              <LoadingBoundary isLoading={signupsLoading}>
+                <BarChart
+                  title="User Growth"
+                  data={signupsChartData}
+                  xAxisKey="month"
+                  dataKeys={[
+                    { key: 'count', color: CHART_COLORS.success, name: 'New Signups' },
+                  ]}
+                  loading={loading}
+                />
+              </LoadingBoundary>
+            </ErrorBoundary>
           </Paper>
         </Grid>
 
         <Grid size={{ xs: 12, md: 6 }}>
           <Paper sx={{ p: 2, height: '100%' }}>
-            <PieChart
-              title="Subscription Breakdown"
-              data={tierChartData}
-              dataKey="value"
-              nameKey="tier"
-              innerRadius={60}
-              outerRadius={100}
-              loading={loading}
-            />
+            <ErrorBoundary>
+              <LoadingBoundary isLoading={tierLoading}>
+                <PieChart
+                  title="Subscription Breakdown"
+                  data={queryChartData}
+                  dataKey="value"
+                  nameKey="tier"
+                  innerRadius={60}
+                  outerRadius={100}
+                  loading={loading}
+                />
+              </LoadingBoundary>
+            </ErrorBoundary>
           </Paper>
         </Grid>
 
         <Grid size={{ xs: 12, md: 6 }}>
           <Paper sx={{ p: 2, height: '100%' }}>
-            <DowntimeTable data={downtimes} loading={loading} />
+            <ErrorBoundary>
+              <LoadingBoundary isLoading={downtimesLoading}>
+                <DowntimeTable data={downtimes} loading={loading} />
+              </LoadingBoundary>
+            </ErrorBoundary>
           </Paper>
         </Grid>
       </Grid>
