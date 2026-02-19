@@ -1,8 +1,6 @@
-import { useState } from 'react';
+import { useState, lazy } from 'react';
 import { Grid, Paper, Typography, Box } from '@mui/material';
 import { FilterBar } from './FilterBar';
-import { DowntimeTable } from './DowntimeTable';
-import { LineChart, BarChart, PieChart, type ChartData } from '../../components/charts';
 import { LoadingBoundary } from '../../components/LoadingBoundary';
 import { ErrorBoundary } from '../../components/ErrorBoundary';
 import { useMockData, type FilterParams } from '../../hooks';
@@ -10,8 +8,13 @@ import { useRevenue } from '../../hooks/useRevenue';
 import { useSignups } from '../../hooks/useSignups';
 import { useTierDistribution } from '../../hooks/useTierDistribution';
 import { useDowntimes } from '../../hooks/useDowntimes';
-import { CHART_COLORS } from '../../components/charts';
+import { CHART_COLORS, type ChartData } from '../../components/charts';
 import type { TierBreakdownData } from '../../types';
+
+const LineChart = lazy(() => import('../../components/charts/LineChart').then(m => ({ default: m.LineChart })));
+const BarChart = lazy(() => import('../../components/charts/BarChart').then(m => ({ default: m.BarChart })));
+const PieChart = lazy(() => import('../../components/charts/PieChart').then(m => ({ default: m.PieChart })));
+const DowntimeTable = lazy(() => import('./DowntimeTable').then(m => ({ default: m.DowntimeTable })));
 
 const DEFAULT_FILTERS: FilterParams = {
   startMonth: '2025-03',
