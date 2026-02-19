@@ -1,11 +1,12 @@
 import type { DataService } from './types';
-import mockSaaSData, { 
-	getAvailableMonths,
-	type RevenueItem,
-	type SignupItem,
-	type TierDistributionItem,
-	type DowntimeItem,
-} from '../mock/data';
+import type {
+	RevenueItem,
+	SignupItem,
+	TierDistributionItem,
+	DowntimeItem,
+} from '../types';
+import mockSaaSData from '../mock/data';
+import { getAvailableMonths } from '../mock/data';
 
 const filterByMonthRange = <T extends { month: string }>(
 	data: T[],

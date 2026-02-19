@@ -1,4 +1,9 @@
-import type { RevenueItem, SignupItem, TierDistributionItem, DowntimeItem } from '../mock/data';
+import type {
+	RevenueItem,
+	SignupItem,
+	TierDistributionItem,
+	DowntimeItem,
+} from '../types';
 
 export interface DataService {
 	getAvailableMonths(): string[];
