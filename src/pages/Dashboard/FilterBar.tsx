@@ -1,6 +1,7 @@
+import { useMemo } from 'react';
 import { Box, FormControl, InputLabel, Select, MenuItem, Button } from '@mui/material';
 import type { FilterParams } from '../../hooks';
-import { AVAILABLE_MONTHS, formatMonthLabel } from '../../hooks';
+import { getAvailableMonths, formatMonthLabel } from '../../hooks';
 
 interface FilterBarProps {
   filters: FilterParams;
@@ -8,6 +9,8 @@ interface FilterBarProps {
 }
 
 export const FilterBar = ({ filters, onFiltersChange }: FilterBarProps) => {
+  const availableMonths = useMemo(() => getAvailableMonths(), []);
+
   const handleStartMonthChange = (month: string) => {
     if (month <= filters.endMonth) {
       onFiltersChange({ ...filters, startMonth: month });
@@ -46,7 +49,7 @@ export const FilterBar = ({ filters, onFiltersChange }: FilterBarProps) => {
           label="From"
           onChange={(e) => handleStartMonthChange(e.target.value)}
         >
-          {AVAILABLE_MONTHS.map((month) => (
+          {availableMonths.map((month: string) => (
             <MenuItem key={month} value={month} disabled={month > filters.endMonth}>
               {formatMonthLabel(month)}
             </MenuItem>
@@ -62,7 +65,7 @@ export const FilterBar = ({ filters, onFiltersChange }: FilterBarProps) => {
           label="To"
           onChange={(e) => handleEndMonthChange(e.target.value)}
         >
-          {AVAILABLE_MONTHS.map((month) => (
+          {availableMonths.map((month: string) => (
             <MenuItem key={month} value={month} disabled={month < filters.startMonth}>
               {formatMonthLabel(month)}
             </MenuItem>

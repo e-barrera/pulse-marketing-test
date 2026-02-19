@@ -5,7 +5,8 @@ import mockSaaSData, {
   type TierDistributionItem, 
   type DowntimeItem 
 } from '../mock/data';
-import { AVAILABLE_MONTHS, formatMonthLabel } from '../utils';
+import { getAvailableMonths } from '../mock/data';
+import { formatMonthLabel } from '../utils/formatter';
 
 export interface FilterParams {
   startMonth: string;
@@ -159,4 +160,4 @@ export const useMockData = (filters: FilterParams): MockDataState => {
   };
 };
 
-export { AVAILABLE_MONTHS, formatMonthLabel };
+export { getAvailableMonths, formatMonthLabel };
