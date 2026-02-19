@@ -5,6 +5,7 @@ import mockSaaSData, {
   type TierDistributionItem, 
   type DowntimeItem 
 } from '../mock/data';
+import { AVAILABLE_MONTHS, formatMonthLabel } from '../utils';
 
 export interface FilterParams {
   startMonth: string;
@@ -158,28 +159,4 @@ export const useMockData = (filters: FilterParams): MockDataState => {
   };
 };
 
-export const AVAILABLE_MONTHS = [
-  '2025-03',
-  '2025-04',
-  '2025-05',
-  '2025-06',
-  '2025-07',
-  '2025-08',
-  '2025-09',
-  '2025-10',
-  '2025-11',
-  '2025-12',
-  '2026-01',
-  '2026-02',
-] as const;
-
-export const formatMonthLabel = (month: string): string => {
-  if (!month || !month.includes('-')) return month;
-  const [year, monthNum] = month.split('-');
-  const monthNames = [
-    'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-    'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec',
-  ];
-  const monthIndex = parseInt(monthNum, 10) - 1;
-  return `${monthNames[monthIndex]} ${year}`;
-};
+export { AVAILABLE_MONTHS, formatMonthLabel };

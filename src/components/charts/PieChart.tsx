@@ -9,11 +9,7 @@ import {
 import type { PieLabelRenderProps } from 'recharts';
 import { Box, Typography, Skeleton, Paper } from '@mui/material';
 import type { PieChartProps } from './types';
-import { CHART_COLORS } from '../../utils/constants';
-
-const DEFAULT_COLORS = [CHART_COLORS.free, CHART_COLORS.pro, CHART_COLORS.enterprise, CHART_COLORS.primary];
-
-const RADIAN = Math.PI / 180;
+import { PIE_COLORS, RADIAN } from '../../utils/constants';
 
 const renderCustomLabel = (props: PieLabelRenderProps) => {
   const { cx, cy, midAngle, innerRadius, outerRadius, percent } = props;
@@ -132,7 +128,7 @@ export const PieChart = ({
             {data.map((_, index) => (
               <Cell
                 key={`cell-${index}`}
-                fill={DEFAULT_COLORS[index % DEFAULT_COLORS.length]}
+                fill={PIE_COLORS[index % PIE_COLORS.length]}
                 stroke="white"
                 strokeWidth={2}
               />

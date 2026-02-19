@@ -12,4 +12,4 @@ export type {
   PieChartProps,
 } from './types';
 
-export { CHART_COLORS } from './types';
+export { CHART_COLORS } from '../../utils/constants';
