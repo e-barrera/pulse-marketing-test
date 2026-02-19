@@ -18,10 +18,8 @@ git checkout -b <branch-name>
 - `refactor/` - for code refactoring (e.g., `refactor/chart-components`)
 - `docs/` - for documentation changes (e.g., `docs/api-documentation`)
 
-### 2. Make Changes
-Implement the required changes, following the code organization rules.
 
-### 3. Stage Changes
+### 2. Stage Changes
 Add all relevant files to staging:
 
 ```bash
@@ -34,7 +32,7 @@ Or add all changes:
 git add .
 ```
 
-### 4. Commit Changes
+### 3. Commit Changes
 Create a commit with a descriptive message summarizing the changes:
 
 ```bash
@@ -57,7 +55,7 @@ Add user authentication module
 - Add protected route wrapper
 ```
 
-### 5. Push Branch
+### 4. Push Branch
 Push the branch to the remote repository:
 
 ```bash
@@ -75,9 +73,6 @@ git push
 ```bash
 # Create and switch to new branch
 git checkout -b feature/user-authentication
-
-# Make changes...
-# (edit files)
 
 # Stage changes
 git add .
