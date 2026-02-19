@@ -1,40 +1,4 @@
-// mock-saas-metrics.js
-// Mock data representing 12 months (Mar 2025 - Feb 2026) of SaaS metrics.
-// Structured for easy import into a codebase (no backend required).
-// All dates in YYYY-MM format for monthly data; downtimes use ISO timestamps.
-
-export interface RevenueItem {
-  month: string;
-  amount: number;
-}
-
-export interface SignupItem {
-  month: string;
-  count: number;
-}
-
-export interface TierDistributionItem {
-  month: string;
-  free: number;
-  pro: number;
-  enterprise: number;
-}
-
-export interface DowntimeItem {
-  id: number;
-  start: string;
-  end: string;
-  durationMinutes: number;
-  description: string;
-  affectedServices: string[];
-}
-
-export interface MockSaaSData {
-  revenue: RevenueItem[];
-  signups: SignupItem[];
-  tierDistribution: TierDistributionItem[];
-  downtimes: DowntimeItem[];
-}
+import type { MockSaaSData } from '../types';
 
 const mockSaaSData: MockSaaSData = {
   revenue: [
@@ -52,7 +16,6 @@ const mockSaaSData: MockSaaSData = {
     { month: '2026-02', amount: 56200 }
   ],
 
-  // User signup counts over time (new users per month)
   signups: [
     { month: '2025-03', count: 65 },
     { month: '2025-04', count: 92 },
@@ -68,7 +31,6 @@ const mockSaaSData: MockSaaSData = {
     { month: '2026-02', count: 820 }
   ],
 
-  // Subscription tier distribution (active users per tier at month-end; simulates growth + light churn ~5%)
   tierDistribution: [
     { month: '2025-03', free: 52, pro: 14, enterprise: 2 },
     { month: '2025-04', free: 132, pro: 35, enterprise: 4 },
@@ -84,7 +46,6 @@ const mockSaaSData: MockSaaSData = {
     { month: '2026-02', free: 3560, pro: 1020, enterprise: 110 }
   ],
 
-  // Downtimes (planned + unplanned outages; includes start/end ISO timestamps and duration in minutes)
   downtimes: [
     {
       id: 1,

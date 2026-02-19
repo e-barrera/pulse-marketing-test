@@ -1,64 +1,27 @@
 import { useState, useEffect, useRef } from 'react';
-import mockSaaSData, { 
-  type RevenueItem, 
-  type SignupItem, 
-  type TierDistributionItem, 
-  type DowntimeItem 
-} from '../mock/data';
+import mockSaaSData from '../mock/data';
 import { getAvailableMonths } from '../mock/data';
 import { formatMonthLabel } from '../utils/formatter';
-
-export interface FilterParams {
-  startMonth: string;
-  endMonth: string;
-}
-
-export interface RevenueData {
-  month: string;
-  amount: number;
-}
-
-export interface SignupData {
-  month: string;
-  count: number;
-}
-
-export interface TierDistributionData {
-  month: string;
-  free: number;
-  pro: number;
-  enterprise: number;
-}
-
-export interface TierBreakdownData {
-  tier: string;
-  value: number;
-}
-
-export interface DowntimeData {
-  id: number;
-  start: string;
-  end: string;
-  durationMinutes: number;
-  description: string;
-  affectedServices: string[];
-}
-
-export interface MockDataState {
-  revenue: RevenueData[];
-  signups: SignupData[];
-  tierDistribution: TierDistributionData[];
-  latestTierBreakdown: TierBreakdownData[];
-  downtimes: DowntimeData[];
-  loading: boolean;
-}
+import type {
+	FilterParams,
+	RevenueData,
+	SignupData,
+	TierDistributionData,
+	TierBreakdownData,
+	DowntimeData,
+	MockDataState,
+	RevenueItem,
+	SignupItem,
+	TierDistributionItem,
+	DowntimeItem,
+} from '../types';
 
 const filterRevenue = (
   data: RevenueItem[],
   startMonth: string,
   endMonth: string
 ): RevenueData[] => {
-  return data.filter((item: RevenueItem) => item.month >= startMonth && item.month <= endMonth);
+  return data.filter((item) => item.month >= startMonth && item.month <= endMonth);
 };
 
 const filterSignups = (
@@ -66,7 +29,7 @@ const filterSignups = (
   startMonth: string,
   endMonth: string
 ): SignupData[] => {
-  return data.filter((item: SignupItem) => item.month >= startMonth && item.month <= endMonth);
+  return data.filter((item) => item.month >= startMonth && item.month <= endMonth);
 };
 
 const filterTierDistribution = (
@@ -74,7 +37,7 @@ const filterTierDistribution = (
   startMonth: string,
   endMonth: string
 ): TierDistributionData[] => {
-  return data.filter((item: TierDistributionItem) => item.month >= startMonth && item.month <= endMonth);
+  return data.filter((item) => item.month >= startMonth && item.month <= endMonth);
 };
 
 const filterDowntimes = (
@@ -82,7 +45,7 @@ const filterDowntimes = (
   startMonth: string,
   endMonth: string
 ): DowntimeData[] => {
-  return downtimes.filter((downtime: DowntimeItem) => {
+  return downtimes.filter((downtime) => {
     const downtimeMonth = downtime.start.substring(0, 7);
     return downtimeMonth >= startMonth && downtimeMonth <= endMonth;
   });
@@ -161,3 +124,12 @@ export const useMockData = (filters: FilterParams): MockDataState => {
 };
 
 export { getAvailableMonths, formatMonthLabel };
+export type {
+	FilterParams,
+	RevenueData,
+	SignupData,
+	TierDistributionData,
+	TierBreakdownData,
+	DowntimeData,
+	MockDataState,
+};
