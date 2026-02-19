@@ -38,21 +38,6 @@ export const PIE_COLORS = [
 	CHART_COLORS.primary,
 ] as const;
 
-export const AVAILABLE_MONTHS = [
-	'2025-03',
-	'2025-04',
-	'2025-05',
-	'2025-06',
-	'2025-07',
-	'2025-08',
-	'2025-09',
-	'2025-10',
-	'2025-11',
-	'2025-12',
-	'2026-01',
-	'2026-02',
-] as const;
-
 export const RADIAN = Math.PI / 180;
 
 export type ServiceColor = 'default' | 'primary' | 'secondary' | 'error' | 'info' | 'success' | 'warning';

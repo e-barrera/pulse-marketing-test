@@ -145,7 +145,8 @@ const mockSaaSData: MockSaaSData = {
   ]
 };
 
-// Export for use in your app (e.g., import { mockSaaSData } from './mock-saas-metrics.js');
-export default mockSaaSData;
+export const getAvailableMonths = (): string[] => {
+	return mockSaaSData.revenue.map((item) => item.month);
+};
 
-// For Node.js/commonjs: module.exports = mockSaaSData;
+export default mockSaaSData;

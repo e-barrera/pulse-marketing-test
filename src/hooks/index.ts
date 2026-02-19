@@ -1,4 +1,4 @@
-export { useMockData, AVAILABLE_MONTHS, formatMonthLabel } from './useMockData';
+export { useMockData, getAvailableMonths, formatMonthLabel } from './useMockData';
 export type {
   FilterParams,
   RevenueData,
