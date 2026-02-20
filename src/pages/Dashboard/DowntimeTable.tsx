@@ -12,50 +12,27 @@ import {
   Skeleton,
   Paper,
 } from '@mui/material';
-import type { DowntimeData } from '../../hooks';
+import { useDowntimes } from '../../hooks/useDowntimes';
+import { formatDate, getServiceColor } from '../../utils';
 
 interface DowntimeTableProps {
-  data: DowntimeData[];
-  loading?: boolean;
+  startMonth: string;
+  endMonth: string;
   height?: number;
 }
 
-const formatDate = (isoString: string): string => {
-  const date = new Date(isoString);
-  return date.toLocaleString('en-US', {
-    month: 'short',
-    day: '2-digit',
-    year: 'numeric',
-    hour: '2-digit',
-    minute: '2-digit',
-    hour12: false,
-  });
-};
-
-const getServiceColor = (service: string): 'default' | 'primary' | 'secondary' | 'error' | 'info' | 'success' | 'warning' => {
-  const colors: Record<string, 'default' | 'primary' | 'secondary' | 'error' | 'info' | 'success' | 'warning'> = {
-    All: 'error',
-    API: 'primary',
-    Login: 'secondary',
-    Dashboard: 'info',
-    Billing: 'warning',
-    Notifications: 'success',
-    'Static Assets': 'default',
-  };
-  return colors[service] || 'default';
-};
-
-export const DowntimeTable = ({ data, loading = false, height = 350 }: DowntimeTableProps) => {
+export const DowntimeTable = ({ startMonth, endMonth, height = 350 }: DowntimeTableProps) => {
+  const { data, isLoading } = useDowntimes(startMonth, endMonth);
   const parentRef = useRef<HTMLDivElement>(null);
 
   const virtualizer = useVirtualizer({
-    count: data.length,
+    count: data?.length ?? 0,
     getScrollElement: () => parentRef.current,
     estimateSize: () => 52,
     overscan: 5,
   });
 
-  if (loading) {
+  if (isLoading) {
     return (
       <Box sx={{ width: '100%' }}>
         <Typography variant="h6" fontWeight={600} gutterBottom>
@@ -70,7 +47,7 @@ export const DowntimeTable = ({ data, loading = false, height = 350 }: DowntimeT
     );
   }
 
-  if (data.length === 0) {
+  if (!data || data.length === 0) {
     return (
       <Box sx={{ width: '100%', height }}>
         <Typography variant="h6" fontWeight={600} gutterBottom>
@@ -149,7 +126,7 @@ export const DowntimeTable = ({ data, loading = false, height = 350 }: DowntimeT
           </TableHead>
           <TableBody>
             {virtualizer.getVirtualItems().map((virtualRow) => {
-              const downtime = data[virtualRow.index];
+              const downtime = data![virtualRow.index];
               return (
                 <TableRow
                   key={downtime.id}

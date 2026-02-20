@@ -1,6 +1,7 @@
+import { useMemo } from 'react';
 import { Box, FormControl, InputLabel, Select, MenuItem, Button } from '@mui/material';
 import type { FilterParams } from '../../hooks';
-import { AVAILABLE_MONTHS, formatMonthLabel } from '../../hooks';
+import { getAvailableMonths, formatMonthLabel } from '../../hooks';
 
 interface FilterBarProps {
   filters: FilterParams;
@@ -8,6 +9,8 @@ interface FilterBarProps {
 }
 
 export const FilterBar = ({ filters, onFiltersChange }: FilterBarProps) => {
+  const availableMonths = useMemo(() => getAvailableMonths(), []);
+
   const handleStartMonthChange = (month: string) => {
     if (month <= filters.endMonth) {
       onFiltersChange({ ...filters, startMonth: month });
@@ -30,6 +33,7 @@ export const FilterBar = ({ filters, onFiltersChange }: FilterBarProps) => {
         display: 'flex',
         gap: 2,
         alignItems: 'center',
+        justifyContent: { xs: 'center', md: 'flex-start' },
         flexWrap: 'wrap',
         mb: 3,
         p: 2,
@@ -38,7 +42,7 @@ export const FilterBar = ({ filters, onFiltersChange }: FilterBarProps) => {
         boxShadow: 1,
       }}
     >
-      <FormControl size="small" sx={{ minWidth: 150 }}>
+      <FormControl size="small" sx={{ minWidth: { xs: 75, md: 150 } }}>
         <InputLabel id="start-month-label">From</InputLabel>
         <Select
           labelId="start-month-label"
@@ -46,7 +50,7 @@ export const FilterBar = ({ filters, onFiltersChange }: FilterBarProps) => {
           label="From"
           onChange={(e) => handleStartMonthChange(e.target.value)}
         >
-          {AVAILABLE_MONTHS.map((month) => (
+          {availableMonths.map((month: string) => (
             <MenuItem key={month} value={month} disabled={month > filters.endMonth}>
               {formatMonthLabel(month)}
             </MenuItem>
@@ -54,7 +58,7 @@ export const FilterBar = ({ filters, onFiltersChange }: FilterBarProps) => {
         </Select>
       </FormControl>
 
-      <FormControl size="small" sx={{ minWidth: 150 }}>
+      <FormControl size="small" sx={{ minWidth: { xs: 75, md: 150 } }}>
         <InputLabel id="end-month-label">To</InputLabel>
         <Select
           labelId="end-month-label"
@@ -62,7 +66,7 @@ export const FilterBar = ({ filters, onFiltersChange }: FilterBarProps) => {
           label="To"
           onChange={(e) => handleEndMonthChange(e.target.value)}
         >
-          {AVAILABLE_MONTHS.map((month) => (
+          {availableMonths.map((month: string) => (
             <MenuItem key={month} value={month} disabled={month < filters.startMonth}>
               {formatMonthLabel(month)}
             </MenuItem>
@@ -73,7 +77,7 @@ export const FilterBar = ({ filters, onFiltersChange }: FilterBarProps) => {
       <Button
         variant="contained"
         onClick={handleApply}
-        sx={{ minWidth: 120 }}
+        sx={{ minWidth: { xs: 50, md: 120 } }}
       >
         Apply Filters
       </Button>

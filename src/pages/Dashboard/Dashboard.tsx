@@ -1,10 +1,20 @@
-import { useState } from 'react';
+import { useState, lazy } from 'react';
 import { Grid, Paper, Typography, Box } from '@mui/material';
 import { FilterBar } from './FilterBar';
-import { DowntimeTable } from './DowntimeTable';
-import { LineChart, BarChart, PieChart, type ChartData } from '../../components/charts';
-import { useMockData, type FilterParams } from '../../hooks';
-import { CHART_COLORS } from '../../components/charts';
+import { type FilterParams } from '../../hooks';
+
+const RevenueChart = lazy(() =>
+  import('./RevenueChart').then((m) => ({ default: m.RevenueChart }))
+);
+const UserGrowthChart = lazy(() =>
+  import('./UserGrowthChart').then((m) => ({ default: m.UserGrowthChart }))
+);
+const SubscriptionChart = lazy(() =>
+  import('./SubscriptionChart').then((m) => ({ default: m.SubscriptionChart }))
+);
+const DowntimeTable = lazy(() =>
+  import('./DowntimeTable').then((m) => ({ default: m.DowntimeTable }))
+);
 
 const DEFAULT_FILTERS: FilterParams = {
   startMonth: '2025-03',
@@ -12,15 +22,16 @@ const DEFAULT_FILTERS: FilterParams = {
 };
 
 export const Dashboard = () => {
-  const [filters, setFilters] = useState<FilterParams>(DEFAULT_FILTERS);
-  const { revenue, signups, latestTierBreakdown, downtimes, loading } = useMockData(filters);
-
-  const revenueChartData = revenue as unknown as ChartData[];
-  const signupsChartData = signups as unknown as ChartData[];
-  const tierChartData = latestTierBreakdown as unknown as ChartData[];
+  const [ filters, setFilters ] = useState<FilterParams>(DEFAULT_FILTERS);
 
   return (
-    <Box>
+    <Box
+      sx={{
+        minHeight: '100vh',
+        px: { xs: '24px', md: '2rem' },
+        py: 3,
+      }}
+    >
       <Typography variant="h4" fontWeight={700} gutterBottom>
         Pulse Marketing Dashboard
       </Typography>
@@ -33,49 +44,37 @@ export const Dashboard = () => {
       <Grid container spacing={3}>
         <Grid size={{ xs: 12, md: 6 }}>
           <Paper sx={{ p: 2, height: '100%' }}>
-            <LineChart
-              title="Revenue Trend"
-              data={revenueChartData}
-              xAxisKey="month"
-              dataKeys={[
-                { key: 'amount', color: CHART_COLORS.primary, name: 'Revenue' },
-              ]}
-              loading={loading}
+            <RevenueChart
+              startMonth={filters.startMonth}
+              endMonth={filters.endMonth}
             />
           </Paper>
         </Grid>
 
         <Grid size={{ xs: 12, md: 6 }}>
           <Paper sx={{ p: 2, height: '100%' }}>
-            <BarChart
-              title="User Growth"
-              data={signupsChartData}
-              xAxisKey="month"
-              dataKeys={[
-                { key: 'count', color: CHART_COLORS.success, name: 'New Signups' },
-              ]}
-              loading={loading}
+            <UserGrowthChart
+              startMonth={filters.startMonth}
+              endMonth={filters.endMonth}
             />
           </Paper>
         </Grid>
 
         <Grid size={{ xs: 12, md: 6 }}>
           <Paper sx={{ p: 2, height: '100%' }}>
-            <PieChart
-              title="Subscription Breakdown"
-              data={tierChartData}
-              dataKey="value"
-              nameKey="tier"
-              innerRadius={60}
-              outerRadius={100}
-              loading={loading}
+            <SubscriptionChart
+              startMonth={filters.startMonth}
+              endMonth={filters.endMonth}
             />
           </Paper>
         </Grid>
 
         <Grid size={{ xs: 12, md: 6 }}>
           <Paper sx={{ p: 2, height: '100%' }}>
-            <DowntimeTable data={downtimes} loading={loading} />
+            <DowntimeTable
+              startMonth={filters.startMonth}
+              endMonth={filters.endMonth}
+            />
           </Paper>
         </Grid>
       </Grid>
