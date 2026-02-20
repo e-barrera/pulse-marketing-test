@@ -33,6 +33,7 @@ export const FilterBar = ({ filters, onFiltersChange }: FilterBarProps) => {
         display: 'flex',
         gap: 2,
         alignItems: 'center',
+        justifyContent: { xs: 'center', md: 'flex-start' },
         flexWrap: 'wrap',
         mb: 3,
         p: 2,
@@ -41,7 +42,7 @@ export const FilterBar = ({ filters, onFiltersChange }: FilterBarProps) => {
         boxShadow: 1,
       }}
     >
-      <FormControl size="small" sx={{ minWidth: 150 }}>
+      <FormControl size="small" sx={{ minWidth: { xs: 75, md: 150 } }}>
         <InputLabel id="start-month-label">From</InputLabel>
         <Select
           labelId="start-month-label"
@@ -57,7 +58,7 @@ export const FilterBar = ({ filters, onFiltersChange }: FilterBarProps) => {
         </Select>
       </FormControl>
 
-      <FormControl size="small" sx={{ minWidth: 150 }}>
+      <FormControl size="small" sx={{ minWidth: { xs: 75, md: 150 } }}>
         <InputLabel id="end-month-label">To</InputLabel>
         <Select
           labelId="end-month-label"
@@ -76,7 +77,7 @@ export const FilterBar = ({ filters, onFiltersChange }: FilterBarProps) => {
       <Button
         variant="contained"
         onClick={handleApply}
-        sx={{ minWidth: 120 }}
+        sx={{ minWidth: { xs: 50, md: 120 } }}
       >
         Apply Filters
       </Button>
